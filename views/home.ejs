@@ -11,7 +11,8 @@
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.4/babel.min.js" integrity="sha512-FneB6sFwq3OQG08dlVoj9iDn0XZG68wD9yg80ofbMCCzW8BioIgsAwSciFaVjM77PdsKdvz3kt/5MKwd+KVGDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-
+var url = "https://codegpt-zjcw.onrender.com/"
+// var url = "http://localhost:3000"
 </script>
 </head>
 <body>
@@ -25,7 +26,7 @@
     const {useState} = React
 
  let app = document.getElementById("app")
-
+// console.log(url);
 
 //  const Main = ()=>{
 //     return [Componnet,Form].map((e)=>{
@@ -130,7 +131,7 @@ const messageDiv = document.getElementById(uniqueId)
 // console.log(messageDiv,chatContainer);
 loader(messageDiv)
 
-let response = await fetch(`http://localhost:3000`,
+let response = await fetch(`${url}`,
 {
     method:"POST",
     headers:{
