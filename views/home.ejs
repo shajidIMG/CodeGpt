@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGpt-For Coders</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.ico">
+    <link rel="stylesheet" href="/style.css">
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.4/babel.min.js" integrity="sha512-FneB6sFwq3OQG08dlVoj9iDn0XZG68wD9yg80ofbMCCzW8BioIgsAwSciFaVjM77PdsKdvz3kt/5MKwd+KVGDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+</script>
+</head>
+<body>
+ <div id="app">
+   
+ </div>
+
+ <!-- <script src="/script.js"></script> -->
+ <!-- <script src="/s2.js"></script> -->
+ <script type="text/babel">
+    const {useState} = React
+
+ let app = document.getElementById("app")
+
+
+//  const Main = ()=>{
+//     return [Componnet,Form].map((e)=>{
+
+//     })
+//  }
+
+
+ const Componnet = ()=>{
+
+     return <div id="chat_container">
+         </div>
+ }
+ const Form = ()=>{
+    const [prompt, setprompt] = useState(null)
+    // const handleChange = (e)=>{
+    //         setprompt(e.target.value)
+    //      }
+
+     return<>   
+     <div id="chat_container">
+    </div>
+      <form>
+         <textarea name="prompt" id="prompt" cols="1" rows="1" placeholder="Ask CodeGpt" ></textarea>
+         <button onClick={handleSumbit} type="button"><img src="/assets/send.svg" alt=""/></button>
+         </form>
+         </>
+ }
+ 
+ ReactDOM.render(<Form/>,app)
+ const chatContainer = document.getElementById("chat_container")
+ console.log(chatContainer);
+
+ </script>
+
+ <script>
+ <!-- form  -->
+
+
+ let loadInterval;
+
+ const loader = (element)=>{
+    element.textContent = "."
+
+    loadInterval = setInterval(()=>{
+        element.textContent += ".";
+        if(element.textContent === "...."){
+            element.textContent = "."
+        }
+    },300)
+ }
+
+ const typeText = (element,text)=>{
+let index = 0
+
+    let interval = setInterval(()=>{
+        if(index < text.length){
+element.innerHTML += text.charAt(index)
+index++
+    }else{
+clearInterval(interval)
+    }
+},20)
+ }
+
+ const generateUniqueId = ()=>{
+    const timestamp = Date.now();
+    const randomNumber = Math.random()
+    const hexadecimalString = randomNumber.toString(16)
+
+    return `id-${timestamp}-${hexadecimalString}`
+ }
+
+ const chatStripe = (isAi, value, uniqueId)=>{
+    return`
+    <div class="wrapper ${isAi && 'ai'}">
+        <div class="chat">
+            <div class="profile">
+                <img src="${isAi?'/assets/bot.svg':'/assets/user.svg'}" alt="">
+            </div>
+            <div class="message" id='${uniqueId}'>${value}</div>
+        </div>
+    </div>
+    `
+    
+    
+ }
+
+ const handleSumbit = async(e)=>{
+    event.preventDefault()
+  
+    let prompt = document.getElementById('prompt').value
+
+    chatContainer.innerHTML += chatStripe(false, prompt)
+const uniqueId = generateUniqueId()
+    chatContainer.innerHTML += chatStripe(true, "",uniqueId)
+
+    document.getElementById('prompt').value = "" 
+chatContainer.scrollTop = chatContainer.scrollHeight
+
+const messageDiv = document.getElementById(uniqueId)
+// console.log(messageDiv,chatContainer);
+loader(messageDiv)
+
+let response = await fetch(`http://localhost:3000`,
+{
+    method:"POST",
+    headers:{
+"Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+        prompt
+    })
+})
+clearInterval(loadInterval);
+messageDiv.innerHTML = "";
+if(response.ok){
+    const data = await response.json()
+    const parsedData = data.bot.trim()
+     
+    typeText(messageDiv, parsedData)
+}
+else{
+    const err = await response.text();
+
+    messageDiv.innerHTML = "SomeThing Went Wrong"
+    alert(err)
+}
+}
+ </script>
+</body>
+</html>
