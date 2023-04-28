@@ -1,4 +1,3 @@
 
-let a = 1000000
-
-module.exports = a
+// export
+ let a = 10000

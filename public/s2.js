@@ -1,3 +1,3 @@
-import {a } from './script'
+// import {a } from './script'
 
 console.log(a);
