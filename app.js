@@ -6,10 +6,6 @@ const cors = require('cors')
 // const cors = require('cors')
 const app = express()
 require('dotenv').config()
-
-// import { Configuration, OpenAIApi } from "openai";
-
-// import mongoose from "mongoose";
 const mongoose = require('mongoose')
 const Model = require('./model/noteModel')
 // import { Configuration, OpenAIApi } from "openai";
